@@ -75,3 +75,6 @@ Create a index.html file
 
 #### watch
 so that you don't have to run the command to compile the code every time some changes are made.
+```
+node_modules/.bin/webpack src/main.js dist/bundle.js --watch
+```
