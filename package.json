@@ -1,12 +1,16 @@
 {
-  "name": "webpack",
+  "name": "webpack-reference",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack src/main.js dist/build.js",
+    "watch": "webpack src/main.js dist/build.js --watch"
   },
   "keywords": [],
   "author": "selvesan <dev.selvesan@gmail.com >",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^3.8.1"
+  }
 }
