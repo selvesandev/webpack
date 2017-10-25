@@ -1,2 +1,5 @@
-alert('CO0oo...l');
-console.log('watching....');
+import {notify} from './Notification'
+import {warn} from "./Notification";
+
+notify('notified.');
+warn('warning');

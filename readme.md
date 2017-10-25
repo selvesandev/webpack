@@ -78,3 +78,110 @@ so that you don't have to run the command to compile the code every time some ch
 ```
 node_modules/.bin/webpack src/main.js dist/bundle.js --watch
 ```
+
+## Compiling With Webpack
+For small projects compiling like we did above would be fine but for real life large projects
+we will be doing quite a bit more.  
+so create a `webpack.config.js` file
+
+When this file is in you project root folder the `webpack` command will automatically trigger it. However if you 
+store it anywhere else you can specify it specifically `webpack --config="node_modules\location"`   
+webpack.config.js
+```
+var webpack = require('webpack');
+var path = require('path');
+module.exports = {
+    entry: './src/main.js',
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'bundle.js'
+    }
+};
+```
+* Require the webpack module first
+* Export an object where we will declare the entry, exit, plugin, loader are defined
+* `entry`  refers to the your source code location
+* `output` is a json that contains `path` dirname of the output file and `filename` name of the output file here `bundle.js`
+* better if you use absolute path rather than absolute path using the the path node module when specifying the path name 
+* Now you can update your `package.json` file.
+```
+"scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch"
+  }
+```
+
+### ES2015 Modules
+Fancy words for js files. Any file can expose anything at once function, class or multiple function to the outside world.
+With modules we can divide our javascript classes into any number of files.
+  
+./src/Notification.js
+ ```
+ export default function (message) {
+     console.log(message);
+ }
+ ```
+ ./src/main.js
+ ```
+ import notification from './Notification'
+ notification('notified.');
+ ```
+ 
+ **OR you can also do (commonjs)**
+ 
+ ```
+  module.exports=function(message){
+  console.log(message);
+  }
+ ```
+ 
+ ```
+ var notify =require('./Notification');
+ ```
+ 
+ Better if you use es2015 module.  
+** If default is not used **
+```
+export function notify(message) {
+    console.log(message);
+}
+```
+```
+import {notify} from './Notification'
+notify('notified.');
+```
+
+#### Import Multiple Items
+export
+```
+export function notify(message) {
+    console.log(message);
+}
+
+export function warn(message) {
+    console.warn(message);
+}
+```
+import 
+```
+import {notify} from './Notification'
+import {warn} from "./Notification";
+
+``` 
+
+Or you can do
+ 
+ ```
+ function notify(message) {
+     console.log(message);
+ }
+ 
+ function warn(message) {
+     console.warn(message);
+ }
+ 
+ export default {
+    warn:warn,
+    notify:notify
+ }
+ ```
