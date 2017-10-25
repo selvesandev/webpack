@@ -185,3 +185,75 @@ Or you can do
     notify:notify
  }
  ```
+
+### Loaders 
+One of the greatest thing about webpack is that we can teach it how to process or transform any kinds of file.
+Before diving into a loader lets see what problem we may face 
+
+./src/css/main.css
+```
+body {
+    background: #eee;
+}
+
+```
+./src/main.js
+```
+require('./css/main.css')
+```
+Webpack will not understand the css code and will hence give the **error**.
+```
+ERROR in ./src/css/main.css
+Module parse failed: Unexpected token (1:5)
+You may need an appropriate loader to handle this file type.
+| body {
+|     background: #eee;
+| }
+ @ ./src/main.js 5:0-25
+
+```
+You might need a appropriate loader to handle this file.
+so `loader` teach webpack or introduce the functionality to transform any kind of file that it is optimised for.
+so here we want a css loader.
+
+```
+npm install --save-dev css-loader 
+```
+* the css loader read style sheet.
+* it will dynamically update any css imports or css url fields.
+
+Now update your `webpack.config.js` file add a `module` object to the webpack's main object where we
+will provide a rule that uses regex to select all the .css file and use the `css-loader`
+```
+module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: 'css-loader'//[array if multiple loader are used]
+            }
+        ]
+
+    }
+```
+Now the css-loader will successfully transpile all your css code to you `bundle.js` file **but** it will not take effect on the page.  
+If you want to apply the transpiled css to the page you will have to use another loader 
+`style-loader`
+```
+npm install --save-dev style-loader
+```
+* the style-loader will take any css from you webpack build and inject it into the page.
+
+now add it to your webpack configuration
+```
+module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader']//[array if multiple loader are used]
+            }
+        ]
+
+    }
+```
+**Note ** here we have used first `style-loader` and then `css-loader` in the use array because this will take effect from right to left therefore we will first 
+transpile the file with .css extension and then use it on the page with `style-loader` right to left.
