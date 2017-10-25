@@ -255,5 +255,47 @@ module: {
 
     }
 ```
-**Note ** here we have used first `style-loader` and then `css-loader` in the use array because this will take effect from right to left therefore we will first 
+**Note** here we have used first `style-loader` and then `css-loader` in the use array because this will take effect from right to left therefore we will first 
 transpile the file with .css extension and then use it on the page with `style-loader` right to left.
+
+
+### Compile ES6 code with babel
+```
+class Form{
+    
+}
+```
+
+This code will run in latest browsers but now all browsers so what we can do is compile it down to vanilla javascript. 
+We neet another loader to transpile this code. we can use babel for that.  
+go to  (https://babeljs.io/) > docs > setup > webpack  
+get the installation process there.
+```
+npm install --save-dev babel-loader babel-core
+```
+update the webpack.config.js file with a new rule
+
+```
+{
+   test: /\.js$/,
+   exclude: /node_modules/,
+   loader: "babel-loader"
+}
+```
+* compile all the .js file excluding that is inside the node_module
+* use the babel loader to compile.
+
+Now final thing that you need to do is install the preset and create a `.babelrc` file
+```
+npm install babel-preset-env --save-dev
+``` 
+
+.babelrc
+```
+{
+  "presets": [
+    "env"
+  ]
+}
+```
+Without any configuration options, babel-preset-env behaves exactly the same as babel-preset-latest (or babel-preset-es2015, babel-preset-es2016, and babel-preset-es2017 together).

@@ -60,16 +60,45 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = notify;
-/* harmony export (immutable) */ __webpack_exports__["b"] = warn;
+
+
+var _Notification = __webpack_require__(1);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+__webpack_require__(2);
+
+(0, _Notification.notify)('notified.');
+(0, _Notification.warn)('warning');
+
+var Form = function Form() {
+    _classCallCheck(this, Form);
+
+    console.log('constructor called');
+};
+
+new Form();
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.notify = notify;
+exports.warn = warn;
 function notify(message) {
     console.log(message);
 }
@@ -77,23 +106,6 @@ function notify(message) {
 function warn(message) {
     console.warn(message);
 }
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Notification__ = __webpack_require__(0);
-
-
-
-
-__webpack_require__(2);
-
-
-Object(__WEBPACK_IMPORTED_MODULE_0__Notification__["a" /* notify */])('notified.');
-Object(__WEBPACK_IMPORTED_MODULE_0__Notification__["b" /* warn */])('warning');
 
 /***/ }),
 /* 2 */
