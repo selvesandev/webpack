@@ -3,6 +3,7 @@ import {warn} from "./Notification";
 
 
 require('./css/main.css');
+require('./scss/main.scss');
 
 
 notify('notified.');

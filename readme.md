@@ -103,7 +103,7 @@ module.exports = {
 * `entry`  refers to the your source code location
 * `output` is a json that contains `path` dirname of the output file and `filename` name of the output file here `bundle.js`
 * better if you use absolute path rather than absolute path using the the path node module when specifying the path name 
-* Now you can update your `package.json` file.
+* Now you can update your `package.json` file.  
 ```
 "scripts": {
     "build": "webpack",
@@ -220,7 +220,7 @@ so here we want a css loader.
 npm install --save-dev css-loader 
 ```
 * the css loader read style sheet.
-* it will dynamically update any css imports or css url fields.
+* it will dynamically update any css imports or css url fields.  
 
 Now update your `webpack.config.js` file add a `module` object to the webpack's main object where we
 will provide a rule that uses regex to select all the .css file and use the `css-loader`
@@ -241,7 +241,7 @@ If you want to apply the transpiled css to the page you will have to use another
 ```
 npm install --save-dev style-loader
 ```
-* the style-loader will take any css from you webpack build and inject it into the page.
+* the style-loader will take any css from you webpack build and inject it into the page.  
 
 now add it to your webpack configuration
 ```
@@ -283,7 +283,7 @@ update the webpack.config.js file with a new rule
 }
 ```
 * compile all the .js file excluding that is inside the node_module
-* use the babel loader to compile.
+* use the babel loader to compile.  
 
 Now final thing that you need to do is install the preset and create a `.babelrc` file
 ```
@@ -299,3 +299,79 @@ npm install babel-preset-env --save-dev
 }
 ```
 Without any configuration options, babel-preset-env behaves exactly the same as babel-preset-latest (or babel-preset-es2015, babel-preset-es2016, and babel-preset-es2017 together).
+
+
+### Minification and Environment Setup (Dev,Production)
+
+Like loaders there is also the concept of plugins this is what we are going to use to uglify the code.  
+For the plugin add a `plugins` object just after the module in your
+webpack.config.js with the uglify code.
+```
+plugins: [
+        new webpack.optimize.UglifyJsPlugin()
+    ]
+```
+Now this will minify the code.
+
+##### Uglifying only for the production environment.
+Adding the above uglifying code only if the environment is production. 
+**Add this code to the bottom of your webpack.config.js file**
+
+```
+if (process.env.NODE_ENV === 'production') {
+    module.exports.plugins.push(
+        new webpack.optimize.UglifyJsPlugin()
+    );
+}
+```
+
+Now trigger the Production environment from shell.
+  
+terminal
+```
+NODE_ENV=production node_modules/.bin/webpack
+```
+
+creating short cut for this command in package.json file
+```
+"scripts": {
+    "build": "webpack",
+    "production":"NODE_ENV=production webpack",
+    "watch": "webpack --watch"
+  },
+```
+
+```
+npm run production
+```
+
+
+### Sass Compilation
+Here we will need a loader `sass-loader` which will take case of the webpack process but
+we also want the `node-sass` compiler that actually does the work.   
+`npm install --save-dev sass-loader node-sass`
+Add a new rule object
+```
+{
+   test: /\.s[ac]ss$/,
+   use: ['css-loader','sass-loader']
+},
+```
+* compile all file that has .sass or .scss extension  
+* here we also need a `css-loader` because the webpack should know the css file after it gets compiled.
+* `style-loader` will inject the file to the page  
+./src/scss/main.scss
+```
+$back-color: #eee;
+body {
+  background: $back-color;
+}
+```
+./src/main.js
+```
+require('./scss/main.scss');
+
+```
+Now the scss will be successfully compiled to the bundle.js injected to the page .  
+
+ 

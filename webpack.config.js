@@ -1,5 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
+let webpack = require('webpack');
+let path = require('path');
+let inProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
     entry: './src/main.js',
     output: {
@@ -8,6 +10,10 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.s[ac]ss$/,
+                use: ['style-loader', 'css-loader', 'sass-loader']
+            },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']//[array if multiple loader are used]
@@ -18,5 +24,15 @@ module.exports = {
                 loader: "babel-loader"
             }
         ]
-    }
+    },
+    plugins: [
+        // new webpack.optimize.UglifyJsPlugin()
+    ]
+
 };
+
+if (inProduction) {
+    module.exports.plugins.push(
+        new webpack.optimize.UglifyJsPlugin()
+    );
+}
