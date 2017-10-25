@@ -1,9 +1,15 @@
 let webpack = require('webpack');
 let path = require('path');
 let inProduction = process.env.NODE_ENV === 'production';
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    entry: './src/main.js',
+    entry: {
+        app: [
+            './src/main.js',
+            './src/scss/main.scss'
+        ]//this is my app entry point
+    },
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: 'bundle.js'
@@ -12,7 +18,10 @@ module.exports = {
         rules: [
             {
                 test: /\.s[ac]ss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader']
+                use: ExtractTextPlugin.extract({
+                    use: ['css-loader', 'sass-loader'],
+                    fallback: 'style-loader'
+                })
             },
             {
                 test: /\.css$/,
@@ -26,7 +35,10 @@ module.exports = {
         ]
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin()
+        new ExtractTextPlugin('style.css'),
+        new webpack.LoaderOptionsPlugin({
+            minimize: inProduction
+        })
     ]
 
 };

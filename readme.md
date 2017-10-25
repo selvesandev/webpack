@@ -372,6 +372,92 @@ body {
 require('./scss/main.scss');
 
 ```
-Now the scss will be successfully compiled to the bundle.js injected to the page .  
+Now the scss or sass will be successfully compiled to the bundle.js injected to the page .  
 
- 
+### Extract css to a file.
+we can do this in webpack downloading a webpack [plugin](https://github.com/webpack-contrib/extract-text-webpack-plugin)  
+1) First download the plugin
+`npm install --save-dev extract-text-webpack-plugin`  
+2) Require the plugin in webpack.config.js file   
+`const ExtractTextPlugin = require("extract-text-webpack-plugin");`  
+
+3) Update the code in your webpack.config.js to determine where you want to extract all your scss code.
+```
+{
+   test: /\.s[ac]ss$/,
+   use: ExtractTextPlugin.extract({
+   use: ['css-loader', 'sass-loader'],
+     fallback: 'style-loader'
+   })
+}
+```
+
+4) Finally reference your new plugin in the plugins array list.
+```
+plugins: [
+        new ExtractTextPlugin('style.css')
+    ]
+```
+
+Now all your scss or sass file will be compiled to `./dist/style.css`
+
+#### Info
+If you want to use the entry name you can use the placeholder 
+```
+plugins: [
+        new ExtractTextPlugin('[name].css')
+    ]
+    
+```
+or
+```
+output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: '[name].js'
+    },
+```
+
+so now if you compile it down you will get `main.css` which is the name of your entry in webpack.config.js 
+`entry: './src/main.js'` which can be useful in lot of cases.
+  
+  
+----   
+For entry you generally use string 
+`entry: './src/main.js'`
+
+but you can also use an object.
+```
+entry: {
+        app: './src/main.js'//this is my app entry point
+    },
+```
+
+  
+****
+If you do not want require css in your javascript file you can also reference that within
+your webpack configuration file by adding it to your app entry point.
+```
+entry: {
+        app: [
+            './src/main.js',
+            './src/scss/main.scss'
+        ]//this is my app entry point
+    },
+```
+**Note** that this will not minimize the css code we need a way to tell our loaders whether to operate within a minimize mode.  
+search for `loaderoptionsplugin` place the code in the plugins section
+```
+plugins: [
+        new ExtractTextPlugin('style.css'),
+        new webpack.LoaderOptionsPlugin({
+            minimize: true
+        })
+    ]
+```   
+
+Here rather than specifying the minimize option directly to true we can use the `inProduction` variable that we have
+in order to minimize the code only in the production mode.
+```
+npm run build //will not minimize the code.
+npm run production //will minimize the code.
+```

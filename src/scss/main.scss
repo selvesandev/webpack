@@ -1,6 +1,14 @@
 $back-color: #eee;
 $text-color: #666;
+$font-size: 12px;
 body {
   background: $back-color;
   color: $text-color;
+}
+
+p {
+  font-size: $font-size;
+  span {
+    color: $text-color;
+  }
 }
