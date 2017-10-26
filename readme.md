@@ -1,5 +1,6 @@
 # Webpack
 
+
 ### Installation
 Can be installed locally or globally.
 ``` npm init -y``` to create the package.json file at first  
@@ -461,3 +462,103 @@ in order to minimize the code only in the production mode.
 npm run build //will not minimize the code.
 npm run production //will minimize the code.
 ```
+
+
+## Relative CSS URLs
+when we are referencing an image in our css,sass or scss file and if you give the location or src
+of the image relative to where the code is going to be bundled up the webpack compilation will fail.
+  
+For eg:- 
+all your compiling code are going to the `/dist` directory and there you have a image inside /dist/img/image.jpeg
+You assume this path in the source scss file but the webpack will show error since the file will not be found in the src directory
+when compiling the code.
+```
+Can't resolve './img/owl.jpg' in '/home/selvesan/Documents/localdev/webpack/src/scss'
+
+```
+There are couple of ways to fix this.  
+**use an absolute path**  
+this means use the url like this.
+```
+  background: url("/img/owl.jpg");
+``` 
+not like this
+```
+  background: url("./img/owl.jpg");
+``` 
+Now the css-loader will ignore this entirely.  
+
+**Another options is to** 
+update our webpack file and instruct the css loader to not include urls we can do that with an option
+go to the css-loader github and checkout the options we can disable the url handling entirely.
+
+```
+{
+    test: /\.s[ac]ss$/,
+    use: ExtractTextPlugin.extract({
+         // use: ['css-loader', 'sass-loader'],
+         use: [
+         {
+            loader: 'css-loader',
+                options: {url: false}//don't handle the urls
+            },
+            'sass-loader'
+         ],
+         fallback: 'style-loader'
+    })
+}
+```
+
+**Another method is to use the raw-loader**
+This will help us to import the file as string and do no processing.
+```
+npm install --save-dev raw-loader
+```
+
+```
+{
+    test: /\.s[ac]ss$/,
+    use: ExtractTextPlugin.extract({
+         use: ['raw-loader', 'sass-loader'],
+         fallback: 'style-loader'
+    })
+}
+
+```
+This will give the exact same thing like above.  
+
+**Another Method is to copy the image with webpack**
+you can keep your images in your source folder. If the webpack finds the relative path in the css file it will find the image and move it
+to the compiled file location here `dist` directory. For this to work 
+setup a new test in the webpack config file and also download the `file-loader`.
+  
+```
+{
+    test: /\.(png|jpe?g|giff|svg|eot|ttf|woff|woff2)$/,
+    use: 'file-loader'
+},
+```
+`npm run build` will copy the file to the dist folder md5 the file name and rewrite the url so that the url will reference to the file.
+  
+To move the file in a specific directory with a specific name use the below syntax  
+```
+{
+    test: /\.(png|jpe?g|giff|svg|eot|ttf|woff|woff2)$/,
+    loader: 'file-loader',
+    options: {
+        name: 'images/[name].[hash].[ext]'
+    }
+},
+```
+will generate a file with a filename.randommd5hash.extension in the img directory.
+
+- [ ] Mercury
+- [x] Venus
+- [x] Earth (Orbit/Moon)
+- [x] Mars
+- [ ] Jupiter
+- [ ] Saturn
+- [ ] Uranus
+- [ ] Neptune
+- [ ] Comet Haley
+

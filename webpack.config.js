@@ -20,8 +20,22 @@ module.exports = {
                 test: /\.s[ac]ss$/,
                 use: ExtractTextPlugin.extract({
                     use: ['css-loader', 'sass-loader'],
-                    fallback: 'style-loader'
+                    // use: [
+                    //     {
+                    //         loader: 'css-loader',
+                    //         options: {url: false}//don't handle the urls
+                    //     },
+                    //     'sass-loader'
+                    // ],
+                    // fallback: 'style-loader'
                 })
+            },
+            {
+                test: /\.(png|jpe?g|giff|svg|eot|ttf|woff|woff2)$/,
+                loader: 'file-loader',
+                options: {
+                    name: 'images/[name].[hash].[ext]'
+                }
             },
             {
                 test: /\.css$/,
