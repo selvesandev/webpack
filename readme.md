@@ -578,13 +578,4 @@ __Note__ if you ignore the minimize true it will default to false and your css f
 mode
 
 
-
-- [ ] Mercury
-- [x] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+## File Versioning.
