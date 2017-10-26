@@ -552,6 +552,33 @@ To move the file in a specific directory with a specific name use the below synt
 ```
 will generate a file with a filename.randommd5hash.extension in the img directory.
 
+### Strip Unused CSS. (purifycss-webpack)
+
+```
+npm i -D purifycss-webpack purify-css
+
+```
+This will scan all the view or html of your website and then it is going to compare that against your style sheet.
+and if it finds selectors that is in the css for not in html it will simply remove the css and reduce the css. 
+__Add purify css plugin to webpack__
+```
+
+const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
+plugins: [
+        new PurifyCSSPlugin({
+            paths: glob.sync(path.join(__dirname, 'index.html'))//'app/*.html' or //resources/views/**/*.blade.php,
+            minimize: inProduction
+                
+        })
+    ]
+```
+
+__Note__ if you ignore the minimize true it will default to false and your css file will not be minified even in the production
+mode
+
+
+
 - [ ] Mercury
 - [x] Venus
 - [x] Earth (Orbit/Moon)
@@ -561,4 +588,3 @@ will generate a file with a filename.randommd5hash.extension in the img director
 - [ ] Uranus
 - [ ] Neptune
 - [ ] Comet Haley
-

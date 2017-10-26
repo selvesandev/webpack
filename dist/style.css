@@ -1,11 +1,12 @@
 body {
   background: #eee;
-  color: #666; }
+  color: #666;
+}
 
 p {
-  font-size: 12px; }
-  p span {
-    color: #666; }
+  font-size: 12px;
+}
 
 div.my-background {
-  background: url(images/owl.6372058fc6082594c9b33756546f2be8.jpg); }
+  background: url(images/owl.6372058fc6082594c9b33756546f2be8.jpg);
+}

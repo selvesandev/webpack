@@ -16,3 +16,10 @@ p {
 div.my-background {
   background: url("../img/owl.jpg");
 }
+
+.one {
+  border: 1px solid red;
+  .two {
+    color: red;
+  }
+}
